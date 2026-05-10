@@ -32,7 +32,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: frontend-repo # Tu compañera debe crear este nombre en AWS ECR
+          ECR_REPOSITORY: 058264495714.dkr.ecr.us-east-1.amazonaws.com/frontend-innovatech # Tu compañera debe crear este nombre en AWS ECR
           IMAGE_TAG: latest
         run: |
           # Construye usando el Dockerfile multi-stage que ya probamos [cite: 91]
