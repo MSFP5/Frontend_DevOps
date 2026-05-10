@@ -20,7 +20,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          [cite_start]aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # Crítico intento 3
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # Arreglo de sintaxis
           aws-region: us-east-1
 
       # Paso C: Autenticación en el registro de Amazon ECR [cite: 111, 147]
@@ -32,7 +32,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: 058264495714.dkr.ecr.us-east-1.amazonaws.com/frontend-innovatech # Tu compañera debe crear este nombre en AWS ECR
+          ECR_REPOSITORY: frontend-innovatech # Arreglo de ruta
           IMAGE_TAG: latest
         run: |
           # Construye usando el Dockerfile multi-stage que ya probamos [cite: 91]
