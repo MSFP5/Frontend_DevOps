@@ -20,7 +20,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          [cite_start]aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # Crítico
+          [cite_start]aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # Crítico intento 3
           aws-region: us-east-1
 
       # Paso C: Autenticación en el registro de Amazon ECR [cite: 111, 147]
