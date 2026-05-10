@@ -1,6 +1,6 @@
 name: CI/CD Frontend Innovatech
 
-# 1. Trigger: El "gatillo" que activa el robot 
+# El pipeline se activa automáticamente al realizar un push en la rama deploy [cite: 14, 113, 145]
 on:
   push:
     branches: [ "deploy" ]
@@ -9,33 +9,36 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     
+    # Conexión con el entorno donde creaste los secretos
+    environment: AWS-TOKENS 
+    
     steps:
-      # Paso A: Descargar el código en la máquina virtual
+      # Paso 1: Descargar el código fuente del repositorio [cite: 104]
       - name: Checkout del código
         uses: actions/checkout@v4
 
-      # Paso B: Configurar credenciales de AWS usando Secrets [cite: 114, 146]
+      # Paso 2: Configurar las credenciales de AWS usando los secretos del entorno [cite: 43, 114, 146]
       - name: Configurar credenciales AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # Arreglo de sintaxis
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
-      # Paso C: Autenticación en el registro de Amazon ECR [cite: 111, 147]
+      # Paso 3: Autenticación en Amazon ECR [cite: 41, 111, 147]
       - name: Login a Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # Paso D: Construcción y subida de la imagen (Build & Push)
+      # Paso 4: Construcción y subida de la imagen Docker (Build & Push)
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: frontend-innovatech # Arreglo de ruta
+          ECR_REPOSITORY: frontend-innovatech
           IMAGE_TAG: latest
         run: |
-          # Construye usando el Dockerfile multi-stage que ya probamos [cite: 91]
+          # Construcción usando el Dockerfile multi-stage optimizado [cite: 29, 91]
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          # Sube la imagen a la nube de AWS
+          # Publicación en el registro de AWS [cite: 111]
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
